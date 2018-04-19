@@ -31,7 +31,8 @@ if( !$row ){
 ?>
 
 
-<form method="POST" action="add.php">
+<form method="POST" action="update.php">
+	<input type="hidden" name="id" value="<?php echo $row["m_id"]?>" >
 	請輸入商品：<input type="text" name="prod" value="<?php echo $row["name"]?>" >
 	金額：<input type="text" name="price" value="<?php echo $row["cost"]?>" >
 	<input type="submit"> <a href="list.php">取消</a>
