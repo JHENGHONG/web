@@ -1,0 +1,48 @@
+ D:\xampp\mysql\bin\mysql -uroot
+ 
+CREATE DATABASE mid DEFAULT CHARACTER SET 'utf8' DEFAULT COLLATE 'utf8_general_ci';
+
+CREATE USER 'd04220208'@'localhost' IDENTIFIED BY '123456';
+
+GRANT ALL PRIVILEGES ON mid.* TO 'd04220208'@'localhost';
+
+FLUSH PRIVILEGES;
+
+EXIT;
+
+ D:\xampp\mysql\bin\mysql -ud04220208 -p
+ 
+ USE mid;
+
+ CREATE TABLE messageboard(
+  m_id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  name VARCHAR(200),
+  message TEXT(1000),
+  title  VARCHAR(200),
+  choose int
+) CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
+
+
+ CREATE TABLE message(
+  m_id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  name VARCHAR(200),
+  message TEXT(1000),
+  choose int
+) CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
+
+CREATE TABLE user(
+  m_id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  username VARCHAR(200),
+  account VARCHAR(200),
+  password VARCHAR(200)
+) CHARACTER SET 'utf8' COLLATE 'utf8_general_ci';
+
+
+
+
+
+
+
+
+
+清空資料表	truncate table 
