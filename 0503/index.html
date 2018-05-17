@@ -19,6 +19,43 @@
 		var x = document.getElementById(id);
 		x.style.display="none";
 	}
+	
+	
+	function addtoserver(){
+		//傳到console測試
+		//console.log("123");
+		var data ={
+		prod:document.getElementById("prod").value,
+		price:document.getElementById("price").value
+		};
+		
+		
+		//AJAX請求
+			var xhr = new XMLHttpRequest();
+			xhr.open("post","add.php"); //送到add.php
+			xhr.setRequestHeader("Content-Type","application/json;charset=UTF-8");
+			xhr.onreadystatechange = function(){
+				if(this.readyState == 4  ){				//回傳結束
+					if(this.status==201){
+					console.log( this.responseText );
+					//inserttoList(??); 新增到LIST
+					hide("edit_form");
+					show("show_add");	
+					}else{
+					console.log(this.responseText);					//不做任何處理
+					alert('失敗');
+					}
+				}
+			};
+			xhr.send(JSON.stringify(data))
+	}
+	
+	//--------------------------------------------------
+	//把一筆資料加到清單表格中
+	function insert2List( data ){
+	}
+
+	
 	</script>
 	
 </head>
@@ -46,11 +83,21 @@
 	
 	var x;
 	x = document.getElementById("show_add");
-	x.addEventListener("click",function(){show("edit_form");});
-
-	x = document.getElementById("cancel");
-	x.addEventListener("click",function(){hide("edit_form");});
+	x.addEventListener("click",function(){
+	show("edit_form");
+	hide("update");
+	hide("show_add");
+	});
 	
+	
+	x = document.getElementById("cancel");
+	x.addEventListener("click",function(){
+	hide("edit_form");
+	show("show_add");
+	});
+	
+	//add to server
+	document.getElementById("add").addEventListener("click", addtoserver);
 	
 	})();
 	</script>
