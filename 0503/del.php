@@ -29,6 +29,6 @@ $stmt->execute([$data->{"id"}]);
 //輸出
 $data->{"id"} = $db->lastInsertId();  //取得前一次 insert 的 id
 
-http_response_code(201);
+http_response_code(200);
 header("Content-Type: application/json;charset=UTF-8");
 echo json_encode($data);              //把insert的資料再回傳給用戶端
