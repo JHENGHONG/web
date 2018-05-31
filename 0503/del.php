@@ -27,7 +27,7 @@ $stmt = $db->prepare('delete from moneybook where m_id');
 $stmt->execute([$data->{"id"}]);
 
 //輸出
-$data->{"id"} = $db->lastInsertId();  //取得前一次 insert 的 id
+//$data->{"id"} = $db->lastInsertId();  //取得前一次 insert 的 id
 
 http_response_code(200);
 header("Content-Type: application/json;charset=UTF-8");

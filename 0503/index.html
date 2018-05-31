@@ -59,7 +59,7 @@
 			xhr.onreadystatechange = function(){
 				if(this.readyState == 4  ){		//回傳結束
 					if(this.status==201){
-					console.log( this.responseText );
+					//console.log( this.responseText );
 					insert2List(JSON.parse(this.responseText)); //新增到LIST
 					hide("edit_form");
 					show("show_add");	
@@ -85,21 +85,79 @@
 			xhr.onreadystatechange = function(){
 				if(this.readyState == 4  ){		//回傳結束
 					if(this.status==200){
-					console.log( this.responseText );
-					
+						//console.log( this.responseText );
+						var ret = JSON.parse(this.responseText);
+						var tr = document.querySelector('tr[t_id="'+ret.id+'"]');
+						tr.parentNode.removeChild(tr);
 					}else{
-					console.log(this.responseText);		//不做任何處理
-					alert('刪除失敗');
+						console.log(this.responseText);		//不做任何處理
+						alert('刪除失敗');
 					}
 				}
 			};
 			xhr.send(JSON.stringify(data));
+	}
+	
+	//-----------修改按鈕---------------
+	function edit_click(){
+		var id = ev.target.getAttribute('t_id');
+		
+		var xhr = new XMLHttpRequest();
+		xhr.open("GET","get.php?id="+id); //送到del.php
+		//xhr.setRequestHeader("Content-Type","application/json;charset=UTF-8");
+		xhr.onreadystatechange = function(){
+			if(this.readyState == 4  ){		//回傳結束
+				if(this.status==200){
+					//console.log( this.responseText );
+					var data = JSON.parse(this.responseText);
+					show("edit_form");
+					document.getElementById("prod").value = data.prod;
+					document.getElementById("price").value = data.price;
+					document.getElementById("ppid").value = data.id;
+					Show("update");
+					hide("add");
+					hide("show_add");
+				}else{
+					console.log(this.responseText);		//不做任何處理
+					alert('刪除失敗');
+				}
+			}
+		};
+	xhr.send();
+	
+	}
+	//---------把表單的資料，送到伺服器上新增儲存-----
+	function updatetoserver{
+		var data={
+			id:ducouent.getElementById("ppid").value,
+			prod:ducouent.getElementById("ppid").value,
+			price:ducouent.getElementById("ppid").value,
+		};
+	var xhr = new XMLHttpRequest();
+		xhr.open("POST","update.php"); //送到del.php
+		xhr.setRequestHeader("Content-Type","application/json;charset=UTF-8");
+		xhr.onreadystatechange = function(){
+			if(this.readyState == 4  ){		//回傳結束
+				if(this.status==201){
+					//console.log( this.responseText );
+					consloe.log(this.responseText);
+					hide("edit_form");
+					show("show_add");
+				}else{
+					console.log(this.responseText);		//不做任何處理
+					alert('刪除失敗');
+				}
+			}
+		};
+	xhr.send(JSON.stirngify(data));
+	
 	}
 	//-----------把一筆資料加到清單表格中-----------------
 	function insert2List(data){
 		var tbl = document.getElementById('list');
 	
 		var row = tbl.insertRow(tbl.rows.length);
+		row.setAttribute('t_id',data.id);
 		
 		var ce1 , ce2 , ce3;
 		ce1 = row.insertCell(0);
@@ -117,6 +175,7 @@
 		
 		btn2 = document.createElement('button');
 		btn2.setAttribute('t_id',data.id);
+		btn2.addEventListener('click',edit_click);
 		btn2.appendChild(document.createTextNode('修改'));
 		
 		ce3.appendChild(btn1);
@@ -165,6 +224,8 @@
 	
 	//add to server
 	document.getElementById("add").addEventListener("click", addtoserver);
+	//update to server
+	document.getElementById("update").addEventListener("click", updatetoserver);
 	//取得遠端資料
 	getlist();
 	})();
